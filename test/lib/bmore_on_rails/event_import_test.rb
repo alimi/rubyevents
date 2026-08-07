@@ -293,6 +293,42 @@ class BmoreOnRails::EventImportTest < ActiveSupport::TestCase
       videos_file.top_level_talks.map { |talk| talk.value_at("id") }.sort
   end
 
+  test "a crash before the entry is normalized leaves nothing behind to trip up a re-run" do
+    capture_io { crash_during(:normalize_generated_entry, "cja7x708") }
+
+    capture_io { import("cja7x708") }
+
+    assert_equal ["bmore-on-rails-meetup-2026-08-13"], videos_file.ids
+  end
+
+  test "a crash on the first import leaves no half written file behind" do
+    capture_io { crash_during(:normalize_generated_entry, "cja7x708") }
+
+    assert_not File.exist?(videos_file_path)
+  end
+
+  # The listing has to have changed, or the passes before the crash are all
+  # no-ops and there is nothing to roll back.
+  test "a crash on a later import leaves the file exactly as it was" do
+    capture_io { import("cja7x708") }
+    before = File.read(videos_file_path)
+
+    capture_io { crash_during(:ensure_luma_resource, "cja7x708", description_text: "We moved to a bigger room.") }
+
+    assert_equal before, File.read(videos_file_path)
+  end
+
+  test "an interrupt rolls the file back the same way an error does" do
+    capture_io { import("cja7x708") }
+    before = File.read(videos_file_path)
+
+    capture_io do
+      crash_during(:ensure_slug, "cja7x708", description_text: "We moved to a bigger room.", error: Interrupt)
+    end
+
+    assert_equal before, File.read(videos_file_path)
+  end
+
   test "produces an entry that passes the data validators" do
     import("cja7x708")
 
@@ -315,6 +351,17 @@ class BmoreOnRails::EventImportTest < ActiveSupport::TestCase
 
   def entry
     videos_file.document.root.each.first
+  end
+
+  # Stops a run partway through, at the named pass, the way a bug or a dropped
+  # connection would.
+  def crash_during(pass, slug, description_text: nil, error: RuntimeError)
+    stub_listing(slug, description_text: description_text)
+    importer = BmoreOnRails::EventImport.new("https://luma.com/#{slug}", destination_root: @destination)
+
+    importer.stub(pass, ->(*) { raise error }) do
+      assert_raises(error) { importer.import! }
+    end
   end
 
   def import(slug, description_text: nil)
