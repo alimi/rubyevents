@@ -1,0 +1,191 @@
+{
+  "event": {
+    "api_id": "evt-oyPa2m0TLMvOsAJ",
+    "name": "B'more on Rails Goes Golfing 🏌️",
+    "start_at": "2026-05-14T23:00:00.000Z",
+    "end_at": "2026-05-15T01:00:00.000Z",
+    "timezone": "America/New_York",
+    "url": "cbhwa7rj"
+  },
+  "description_mirror": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "This is not the golf you're thinking about! Join us at our May meetup for a round of ",
+            "type": "text"
+          },
+          {
+            "text": "code",
+            "type": "text",
+            "marks": [
+              {
+                "type": "italic"
+              }
+            ]
+          },
+          {
+            "text": " golf. To play code golf, you take a problem and try to solve it in the fewest characters possible. For example, instead of writing long, descriptive variable names you might use single characters. Every keystroke counts because it's like golf where the lowest score wins.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "We'll work in pairs on a problem to see who can get the lowest score.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "We'll be using ",
+            "type": "text"
+          },
+          {
+            "text": "code.golf",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://code.golf"
+                }
+              }
+            ]
+          },
+          {
+            "text": " because yes, there's a website for this already. If you want to get some practice rounds in, start with the ",
+            "type": "text"
+          },
+          {
+            "text": "tutorial",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://code.golf/tutorial#ruby"
+                }
+              }
+            ]
+          },
+          {
+            "text": " and check the ",
+            "type": "text"
+          },
+          {
+            "text": "wiki",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://code.golf/wiki"
+                }
+              }
+            ]
+          },
+          {
+            "text": " for tips.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "level": 2
+        },
+        "content": [
+          {
+            "text": "Sponsors",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Thanks to our sponsor ",
+            "type": "text"
+          },
+          {
+            "text": "EcoMap",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://ecomap.tech/"
+                }
+              }
+            ]
+          },
+          {
+            "text": " for providing the space and bringing the pizza.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "attrs": {
+          "alt": null,
+          "src": "https://images.lumacdn.com/editor-images/4a/23ccb306-0861-4280-a6a3-c4a1257a510d.png",
+          "width": 827,
+          "height": 206,
+          "image_id": "local-upload-blob:https://luma.com/5c8d080e-08d7-4246-a587-aab51157dd19",
+          "mime_type": null,
+          "uploaded_at": "2025-10-07T21:25:01.833-04:00",
+          "is_uploading": false,
+          "resize_width": 200
+        }
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "level": 2
+        },
+        "content": [
+          {
+            "text": "Anti-harassment policy",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "B'more on Rails is dedicated to a harassment-free experience for everyone. Our anti-harassment policy can be found at ",
+            "type": "text"
+          },
+          {
+            "text": "https://github.com/bmoreonrails/meetup/blob/main/anti_harassment_policy.md",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://github.com/bmoreonrails/meetup/blob/main/anti_harassment_policy.md"
+                }
+              }
+            ]
+          },
+          {
+            "text": ".",
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+}

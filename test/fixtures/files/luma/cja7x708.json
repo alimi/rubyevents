@@ -1,0 +1,121 @@
+{
+  "event": {
+    "api_id": "evt-GFa0bmMJLnruYvT",
+    "name": "Bring Your Own Tokens Hack Night | B'more on Rails",
+    "start_at": "2026-08-13T23:00:00.000Z",
+    "end_at": "2026-08-14T01:00:00.000Z",
+    "timezone": "America/New_York",
+    "url": "cja7x708"
+  },
+  "description_mirror": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "At August's meetup, we're gonna have a Hack Night unlike any other. We'll work in pairs on the same problem, but all work will be driven by AI. The goal at the end of the night isn't to have something working, but rather to share and learn how to best leverage AI coding tools.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "To participate, you will need to bring your own tokens. If you can't find any, pair up with somebody who's got tokens to spare. Or you can try running an open model locally.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "level": 2
+        },
+        "content": [
+          {
+            "text": "Sponsors",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Thanks to our sponsor ",
+            "type": "text"
+          },
+          {
+            "text": "EcoMap",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://ecomap.tech/"
+                }
+              }
+            ]
+          },
+          {
+            "text": " for providing the space.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "attrs": {
+          "alt": null,
+          "src": "https://images.lumacdn.com/editor-images/4a/23ccb306-0861-4280-a6a3-c4a1257a510d.png",
+          "width": 827,
+          "height": 206,
+          "image_id": "local-upload-blob:https://luma.com/5c8d080e-08d7-4246-a587-aab51157dd19",
+          "mime_type": null,
+          "uploaded_at": "2025-10-07T21:25:01.833-04:00",
+          "is_uploading": false,
+          "resize_width": 200
+        }
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "level": 2
+        },
+        "content": [
+          {
+            "text": "Anti-harassment policy",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "B'more on Rails is dedicated to a harassment-free experience for everyone. Our anti-harassment policy can be found at ",
+            "type": "text"
+          },
+          {
+            "text": "https://github.com/bmoreonrails/meetup/blob/main/anti_harassment_policy.md",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://github.com/bmoreonrails/meetup/blob/main/anti_harassment_policy.md"
+                }
+              }
+            ]
+          },
+          {
+            "text": ".",
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+}

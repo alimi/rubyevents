@@ -1,0 +1,217 @@
+{
+  "event": {
+    "api_id": "evt-1YCQphj3k4gnkg3",
+    "name": "B'more on Rails Presents: Your Talks!",
+    "start_at": "2025-12-12T00:00:00.000Z",
+    "end_at": "2025-12-12T02:00:00.000Z",
+    "timezone": "America/New_York",
+    "url": "h5b3rmif"
+  },
+  "description_mirror": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "At December's meetup, we'll be hearing talks from you! You can talk about anything Ruby, Rails, or tech related. If you have an idea but not sure if it's good enough for a talk…it is! We have space for 2 or 3 talks.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "level": 2
+        },
+        "content": [
+          {
+            "text": "Lineup",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Rosanna Speller - What time is it? ",
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ]
+          },
+          {
+            "text": "This talk will guide you through dealing with dates, times, and time zones in Rails.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Gary Moore - Comparing traditional Machine Learning with LLM performance when evaluating Privacy Policies ",
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ]
+          },
+          {
+            "text": "While this talk isn't directly Ruby/Rails related, it'll be an interesting way to look at AI.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Matt Scilipoti - A guide to working in dev containers ",
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ]
+          },
+          {
+            "text": "Another less Rails specific talk, but another good one! Learn how to use containers to manage running different dependencies/projects on your machine.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Please drop us a message if you'd like to give a talk at a future meetup.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "level": 2
+        },
+        "content": [
+          {
+            "text": "Sponsors",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "Thanks to our sponsors: ",
+            "type": "text"
+          },
+          {
+            "text": "EcoMap",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://ecomap.tech/"
+                }
+              }
+            ]
+          },
+          {
+            "text": " for providing the space and ",
+            "type": "text"
+          },
+          {
+            "text": "SmartLogic",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://smartlogic.io/"
+                }
+              }
+            ]
+          },
+          {
+            "text": " for bringing the pizza.",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "attrs": {
+          "alt": null,
+          "src": "https://images.lumacdn.com/editor-images/4a/23ccb306-0861-4280-a6a3-c4a1257a510d.png",
+          "width": 827,
+          "height": 206,
+          "image_id": "local-upload-blob:https://luma.com/5c8d080e-08d7-4246-a587-aab51157dd19",
+          "mime_type": null,
+          "uploaded_at": "2025-10-07T21:25:01.833-04:00",
+          "is_uploading": false,
+          "resize_width": 200
+        }
+      },
+      {
+        "type": "image",
+        "attrs": {
+          "alt": null,
+          "src": "https://images.lumacdn.com/editor-images/4v/9f36371c-fbea-4fe3-a226-f123de75c345.png",
+          "width": 150,
+          "height": 26,
+          "image_id": "local-upload-blob:https://luma.com/f8765161-ad9c-4814-8c78-0436773f6030",
+          "mime_type": null,
+          "uploaded_at": "2025-10-07T21:20:29.549-04:00",
+          "is_uploading": false,
+          "resize_width": 202
+        }
+      },
+      {
+        "type": "heading",
+        "attrs": {
+          "level": 2
+        },
+        "content": [
+          {
+            "text": "Anti-harassment policy",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "text": "B'more on Rails is dedicated to a harassment-free experience for everyone. Our anti-harassment policy can be found at ",
+            "type": "text"
+          },
+          {
+            "text": "https://github.com/bmoreonrails/meetup/blob/main/anti_harassment_policy.md",
+            "type": "text",
+            "marks": [
+              {
+                "type": "link",
+                "attrs": {
+                  "href": "https://github.com/bmoreonrails/meetup/blob/main/anti_harassment_policy.md"
+                }
+              }
+            ]
+          },
+          {
+            "text": ".",
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+}
