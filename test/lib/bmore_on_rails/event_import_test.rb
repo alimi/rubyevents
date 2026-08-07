@@ -294,7 +294,7 @@ class BmoreOnRails::EventImportTest < ActiveSupport::TestCase
   end
 
   test "a crash before the entry is normalized leaves nothing behind to trip up a re-run" do
-    capture_io { crash_during(:normalize_generated_entry, "cja7x708") }
+    capture_io { crash_during(:normalize, "cja7x708") }
 
     capture_io { import("cja7x708") }
 
@@ -302,7 +302,7 @@ class BmoreOnRails::EventImportTest < ActiveSupport::TestCase
   end
 
   test "a crash on the first import leaves no half written file behind" do
-    capture_io { crash_during(:normalize_generated_entry, "cja7x708") }
+    capture_io { crash_during(:normalize, "cja7x708") }
 
     assert_not File.exist?(videos_file_path)
   end
@@ -326,6 +326,26 @@ class BmoreOnRails::EventImportTest < ActiveSupport::TestCase
       crash_during(:ensure_slug, "cja7x708", description_text: "We moved to a bigger room.", error: Interrupt)
     end
 
+    assert_equal before, File.read(videos_file_path)
+  end
+
+  # Every pass used to return early when the entry was missing, so a run that
+  # generated nothing still reported the id it never wrote.
+  test "refuses to report success when the generator produced no entry" do
+    capture_io { import("h5b3rmif") }
+    before = File.read(videos_file_path)
+
+    stub_listing("cja7x708")
+    importer = BmoreOnRails::EventImport.new("https://luma.com/cja7x708", destination_root: @destination)
+    error = nil
+
+    capture_io do
+      importer.stub(:generate, ->(*) {}) do
+        error = assert_raises(BmoreOnRails::EventImport::NothingGenerated) { importer.import! }
+      end
+    end
+
+    assert_match(/bmore-on-rails-meetup-2026-08-13/, error.message)
     assert_equal before, File.read(videos_file_path)
   end
 

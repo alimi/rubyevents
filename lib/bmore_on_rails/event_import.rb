@@ -18,6 +18,8 @@ module BmoreOnRails
   # once the generator is done, and handed back on later runs so the generator
   # updates the existing entry rather than appending a second one.
   class EventImport
+    class NothingGenerated < StandardError; end
+
     SERIES_SLUG = "bmore-on-rails"
     EVENT_SLUG = "bmore-on-rails-meetup"
     MEETUP_NAME = "B'more on Rails"
@@ -36,11 +38,16 @@ module BmoreOnRails
       atomically do
         generate(id: id.presence_in(known_ids))
 
-        normalize_generated_entry(known_ids) unless known_ids.include?(id)
-        update_recording_status
-        ensure_slug
-        ensure_luma_resource
-        report_missing_speakers
+        file = Static::VideosFile.new(videos_file_path)
+        entry = locate(file, known_ids)
+
+        normalize(entry) unless known_ids.include?(id)
+        update_recording_status(entry)
+        ensure_slug(entry)
+        ensure_luma_resource(entry)
+        report_missing_speakers(entry)
+
+        file.save!
       end
 
       id
@@ -107,27 +114,34 @@ module BmoreOnRails
       TalkGenerator.start(options, destination_root: @destination_root)
     end
 
-    # The generator names the new entry itself, so it is whichever id appeared
-    # while it ran. It also fills in a "TODO" speaker, which an edition with no
-    # talks should not carry - an empty `talks` container says the same thing
-    # without inventing a speaker, and is what other meetups use for editions
-    # like this. Entries must have exactly one of `talks` or `speakers`.
+    # Once the generator has run the entry is either the one already known, or
+    # the one new id that appeared while it ran - the generator names new
+    # entries itself, so there is nothing else to go on.
+    #
+    # Nothing here can carry on without it. Every pass below used to shrug and
+    # return, which left the run reporting the id it never wrote.
+    def locate(file, known_ids)
+      lookup_id = known_ids.include?(id) ? id : (file.ids - known_ids).first
+      entry = file.find_by(id: lookup_id) if lookup_id.present?
+
+      entry || raise(NothingGenerated,
+        "Expected an entry for #{id} in #{videos_file_path} after running the generator, but found none.")
+    end
+
+    # The generator fills in a "TODO" speaker, which an edition with no talks
+    # should not carry - an empty `talks` container says the same thing without
+    # inventing a speaker, and is what other meetups use for editions like this.
+    # Entries must have exactly one of `talks` or `speakers`.
     #
     # `event_name` is meetup-only and the generator has no option for it, so it
     # is filled in here too. Key order is left to `yerba apply`.
-    def normalize_generated_entry(known_ids)
-      file = videos_file
-      generated_id = (file.ids - known_ids).first
-      return if generated_id.blank?
-
-      entry = file.find_by(id: generated_id)
+    def normalize(entry)
       entry["id"] = id
       entry["video_id"] = id
       entry["event_name"] = metadata.event_name
       entry.delete("speakers")
       entry["talks"] = metadata.talks.map { |talk| talk_attributes(talk) }
       entry["video_provider"] = "children" if metadata.talks.any?
-      file.save!
     end
 
     def talk_attributes(talk)
@@ -150,18 +164,12 @@ module BmoreOnRails
     # other provider was chosen by hand - a recording that turned up later, say -
     # so those are left alone. A talk night's status lives on its talks, and the
     # edition itself stays a plain container.
-    def update_recording_status
-      file = videos_file
-      entry = file.find_by(id: id)
-      return if entry.nil?
-
+    def update_recording_status(entry)
       child_talks = child_talks_of(entry)
       nodes = child_talks.any? ? child_talks : [entry]
       managed = nodes.select { |node| node.value_at("video_provider").in?(MANAGED_PROVIDERS) }
-      return if managed.empty?
 
       managed.each { |node| node["video_provider"] = recording_status }
-      file.save!
     end
 
     def recording_status
@@ -181,23 +189,16 @@ module BmoreOnRails
     # url outright instead of letting collisions be resolved by seeding order.
     # Only ever written when absent: a url that is already public should not move
     # because a title was reworded on Luma.
-    def ensure_slug
-      file = videos_file
-      entry = file.find_by(id: id)
-      return if entry.nil? || entry.value_at("slug").present?
+    def ensure_slug(entry)
+      return if entry.value_at("slug").present?
 
       entry["slug"] = metadata.slug
-      file.save!
     end
 
     # The listing is where people RSVP, so it gets a resource of its own rather
     # than only the trailing url in the description. Added if absent rather than
     # rewritten, so resources added by hand survive a re-run.
-    def ensure_luma_resource
-      file = videos_file
-      entry = file.find_by(id: id)
-      return if entry.nil?
-
+    def ensure_luma_resource(entry)
       resources = entry["additional_resources"]&.each&.to_a || []
       return if resources.any? { |resource| resource.value_at("url") == metadata.url }
 
@@ -207,17 +208,13 @@ module BmoreOnRails
         "url" => metadata.url,
         "type" => "link"
       }]
-      file.save!
     end
 
     # Talks are written once and never rewritten, so a lineup that changed after
     # the first import - or a speaker who cancelled on the night and was left on
     # the listing - shows up here instead of being reconciled automatically.
     # Luma holds the plan; the file holds what actually happened.
-    def report_missing_speakers
-      entry = videos_file.find_by(id: id)
-      return if entry.nil?
-
+    def report_missing_speakers(entry)
       recorded = child_talks_of(entry).flat_map { |talk| talk["speakers"].to_a }
       missing = metadata.talks.map(&:speaker) - recorded
       return if missing.empty?
@@ -226,11 +223,7 @@ module BmoreOnRails
     end
 
     def existing_ids
-      File.exist?(videos_file_path) ? videos_file.ids : []
-    end
-
-    def videos_file
-      Static::VideosFile.new(videos_file_path)
+      File.exist?(videos_file_path) ? Static::VideosFile.new(videos_file_path).ids : []
     end
 
     def videos_file_path
