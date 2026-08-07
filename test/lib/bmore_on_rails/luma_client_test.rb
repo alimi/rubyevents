@@ -1,11 +1,11 @@
 require "test_helper"
 
-module Luma
-  class ClientTest < ActiveSupport::TestCase
+module BmoreOnRails
+  class LumaClientTest < ActiveSupport::TestCase
     test "returns the event data embedded in the listing page" do
       stub_listing("cja7x708")
 
-      payload = Client.new.event("cja7x708")
+      payload = LumaClient.new.event("cja7x708")
 
       assert_equal "Bring Your Own Tokens Hack Night | B'more on Rails", payload.dig("event", "name")
       assert_equal "2026-08-13T23:00:00.000Z", payload.dig("event", "start_at")
@@ -16,7 +16,7 @@ module Luma
     test "accepts a full url instead of a slug" do
       stub_listing("cja7x708")
 
-      payload = Client.new.event("https://luma.com/cja7x708")
+      payload = LumaClient.new.event("https://luma.com/cja7x708")
 
       assert_equal "cja7x708", payload.dig("event", "url")
     end
@@ -24,7 +24,7 @@ module Luma
     test "raises when the listing has no embedded event data" do
       stub_request(:get, "https://luma.com/nope").to_return(body: "<html><body>nothing here</body></html>")
 
-      assert_raises(Client::UnexpectedResponse) { Client.new.event("nope") }
+      assert_raises(LumaClient::UnexpectedResponse) { LumaClient.new.event("nope") }
     end
 
     private

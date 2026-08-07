@@ -1,7 +1,7 @@
 require "test_helper"
 
-module Luma
-  class EventMetadataTest < ActiveSupport::TestCase
+module BmoreOnRails
+  class LumaEventMetadataTest < ActiveSupport::TestCase
     test "uses the date in the event's own timezone, not the UTC date" do
       # 00:00 UTC is still the previous evening in New York
       metadata = build(start_at: "2025-12-12T00:00:00.000Z", timezone: "America/New_York")
@@ -35,7 +35,7 @@ module Luma
     end
 
     test "flattens the description and leads with the Luma url" do
-      metadata = EventMetadata.new(payload: fixture("cja7x708"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("cja7x708"), meetup_name: "B'more on Rails")
 
       assert_match(/we're gonna have a Hack Night unlike any other/, metadata.description)
       assert_match(%r{Thanks to our sponsor EcoMap \(https://ecomap\.tech/\) for providing the space},
@@ -44,7 +44,7 @@ module Luma
     end
 
     test "keeps the destination of a link alongside its text" do
-      metadata = EventMetadata.new(payload: fixture("yh4b1tqi"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("yh4b1tqi"), meetup_name: "B'more on Rails")
 
       assert_match(%r{installation guide \(https://www\.ruby-lang\.org/en/documentation/installation/\)},
         metadata.description)
@@ -52,7 +52,7 @@ module Luma
     end
 
     test "keeps a link whose text also appears inside its url" do
-      metadata = EventMetadata.new(payload: fixture("cbhwa7rj"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("cbhwa7rj"), meetup_name: "B'more on Rails")
 
       assert_match(%r{code\.golf \(https://code\.golf\)}, metadata.description)
       assert_match(%r{tutorial \(https://code\.golf/tutorial\#ruby\)}, metadata.description)
@@ -60,26 +60,26 @@ module Luma
     end
 
     test "does not repeat a link whose text is already the url" do
-      metadata = EventMetadata.new(payload: fixture("yh4b1tqi"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("yh4b1tqi"), meetup_name: "B'more on Rails")
 
       assert_no_match(%r{anti_harassment_policy\.md \(http}, metadata.description)
     end
 
     test "keeps the description's section headings" do
-      metadata = EventMetadata.new(payload: fixture("h5b3rmif"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("h5b3rmif"), meetup_name: "B'more on Rails")
 
       assert_match(/^Lineup$/, metadata.description)
       assert_match(/^Sponsors$/, metadata.description)
     end
 
     test "has no talks when the listing has no lineup" do
-      metadata = EventMetadata.new(payload: fixture("cja7x708"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("cja7x708"), meetup_name: "B'more on Rails")
 
       assert_empty metadata.talks
     end
 
     test "reads the talks out of the lineup" do
-      metadata = EventMetadata.new(payload: fixture("h5b3rmif"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("h5b3rmif"), meetup_name: "B'more on Rails")
 
       assert_equal ["Rosanna Speller", "Gary Moore", "Matt Scilipoti"], metadata.talks.map(&:speaker)
       assert_equal "What time is it?", metadata.talks.first.title
@@ -95,7 +95,7 @@ module Luma
 
     test "ignores lineup prose that is not a talk" do
       # every lineup ends with an unbolded call for more speakers
-      metadata = EventMetadata.new(payload: fixture("h5b3rmif"), meetup_name: "B'more on Rails")
+      metadata = LumaEventMetadata.new(payload: fixture("h5b3rmif"), meetup_name: "B'more on Rails")
 
       assert_equal 3, metadata.talks.length
       assert_no_match(/drop us a message/, metadata.talks.map(&:title).join)
@@ -104,7 +104,7 @@ module Luma
     test "refuses to guess when a lineup entry has no speaker separator" do
       metadata = build(lineup: ["Rosanna Speller — What time is it?"])
 
-      error = assert_raises(EventMetadata::UnparseableLineup) { metadata.talks }
+      error = assert_raises(LumaEventMetadata::UnparseableLineup) { metadata.talks }
       assert_match(/Rosanna Speller/, error.message)
     end
 
@@ -145,7 +145,7 @@ module Luma
         "description_mirror" => {"type" => "doc", "content" => lineup ? lineup_nodes(lineup) : []}
       }
 
-      EventMetadata.new(payload: payload, meetup_name: meetup_name)
+      LumaEventMetadata.new(payload: payload, meetup_name: meetup_name)
     end
 
     def lineup_nodes(bold_runs)

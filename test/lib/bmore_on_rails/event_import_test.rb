@@ -1,9 +1,6 @@
 require "test_helper"
 
-BMORE_ON_RAILS_IMPORT_WITHOUT_CLI = true
-load Rails.root.join("scripts/import_bmore_on_rails_event.rb")
-
-class BmoreOnRailsEventImportTest < ActiveSupport::TestCase
+class BmoreOnRails::EventImportTest < ActiveSupport::TestCase
   setup do
     @destination = Dir.mktmpdir("bmore_on_rails", Rails.root.join("tmp").to_s)
 
@@ -322,7 +319,7 @@ class BmoreOnRailsEventImportTest < ActiveSupport::TestCase
 
   def import(slug, description_text: nil)
     stub_listing(slug, description_text: description_text)
-    BmoreOnRailsEventImport.new("https://luma.com/#{slug}", destination_root: @destination).import!
+    BmoreOnRails::EventImport.new("https://luma.com/#{slug}", destination_root: @destination).import!
   end
 
   def stub_listing(slug, description_text: nil)
